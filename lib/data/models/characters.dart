@@ -1,12 +1,12 @@
 class Character {
-  late String id;
+  late int id;
   late String name;
   late String species;
   late String status;
   late String type;
   late String gender;
   late Map<String, dynamic> origin;
-  late String location;
+  late Map<String, dynamic> location;
   late String image;
   late List<dynamic> episodes;
   late String createdDate;
@@ -18,7 +18,7 @@ class Character {
     species = jsonFile["species"];
     type = jsonFile["type"];
     gender = jsonFile["gender"];
-    origin = jsonFile["origins"];
+    origin = jsonFile["origin"];
     location = jsonFile["location"];
     image = jsonFile["image"];
     episodes = jsonFile["episode"];
