@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rickmorty_cubit_practice/business_logic/cubit/rick_morty_characters_cubit.dart';
 import 'package:rickmorty_cubit_practice/constants/colors.dart';
+import 'package:rickmorty_cubit_practice/data/models/character_model/character_model.dart';
 import 'package:rickmorty_cubit_practice/presentation/widgets/grid_item.dart';
-
-import '../../data/models/characters.dart';
 
 class CharactersScreen extends StatefulWidget {
   const CharactersScreen({super.key});
@@ -17,11 +16,10 @@ class _CharactersScreenState extends State<CharactersScreen> {
   @override
   void initState() {
     super.initState();
-    listOfAllCharacters =
-        BlocProvider.of<RickMortyCharactersCubit>(context).getData();
+    BlocProvider.of<RickMortyCharactersCubit>(context).getData();
   }
 
-  late List<Character> listOfAllCharacters;
+  late List<CharacterModel> listOfAllCharacters;
   Widget buildBlocWidget() {
     return BlocBuilder<RickMortyCharactersCubit, RickMortyCharactersState>(
       builder: (ctx, state) {
@@ -37,7 +35,16 @@ class _CharactersScreenState extends State<CharactersScreen> {
 
   Widget showLoadingIndicator() {
     return const Center(
-      child: CircularProgressIndicator(color: Colors.grey),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(color: Colors.grey),
+          SizedBox(
+            height: 20,
+          ),
+          Text("Loading...")
+        ],
+      ),
     );
   }
 
@@ -62,7 +69,6 @@ class _CharactersScreenState extends State<CharactersScreen> {
       padding: EdgeInsets.zero,
       itemCount: listOfAllCharacters.length,
       itemBuilder: (ctx, index) {
-        //TODO: not Done Yet
         return GridItem(
           characterItem: listOfAllCharacters[index],
         );

@@ -5,6 +5,6 @@ class CharacterDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text("Hello There");
+    return const Text("Hello There");
   }
 }
