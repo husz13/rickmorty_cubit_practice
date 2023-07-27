@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rickmorty_cubit_practice/constants/colors.dart';
+import '../../constants/colors.dart';
 
 import '../../data/models/character_model/character_model.dart';
 

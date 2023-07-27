@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:rickmorty_cubit_practice/router.dart';
+
+import 'router.dart';
 
 void main() {
   runApp(RickMortyApp(route: ScreensRouter()));
@@ -13,6 +14,7 @@ class RickMortyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       onGenerateRoute: route.generateRoute,
     );
   }

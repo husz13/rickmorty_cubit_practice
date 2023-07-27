@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rickmorty_cubit_practice/business_logic/cubit/rick_morty_characters_cubit.dart';
-import 'package:rickmorty_cubit_practice/constants/colors.dart';
-import 'package:rickmorty_cubit_practice/data/models/character_model/character_model.dart';
-import 'package:rickmorty_cubit_practice/presentation/widgets/grid_item.dart';
+import '../../business_logic/cubit/rick_morty_characters_cubit.dart';
+import '../../constants/colors.dart';
+import '../../data/models/character_model/character_model.dart';
+import '../widgets/grid_item.dart';
 
 class CharactersScreen extends StatefulWidget {
   const CharactersScreen({super.key});
@@ -13,6 +13,10 @@ class CharactersScreen extends StatefulWidget {
 }
 
 class _CharactersScreenState extends State<CharactersScreen> {
+  bool isSearching = false;
+  final searchTextController = TextEditingController();
+  late List<CharacterModel> searchedList = [];
+
   @override
   void initState() {
     super.initState();
@@ -63,23 +67,105 @@ class _CharactersScreenState extends State<CharactersScreen> {
           crossAxisCount: 2,
           childAspectRatio: 2 / 3,
           crossAxisSpacing: 1,
-          mainAxisSpacing: 1),
+          mainAxisSpacing: 0),
       shrinkWrap: true,
       physics: const ClampingScrollPhysics(),
       padding: EdgeInsets.zero,
-      itemCount: listOfAllCharacters.length,
+      itemCount: searchTextController.text.isEmpty
+          ? listOfAllCharacters.length
+          : searchedList.length,
       itemBuilder: (ctx, index) {
         return GridItem(
-          characterItem: listOfAllCharacters[index],
+          characterItem: searchTextController.text.isEmpty
+              ? listOfAllCharacters[index]
+              : searchedList[index],
         );
       },
+    );
+  }
+
+  AppBar normalAppBar() {
+    return AppBar(
+      leading: null,
+      title: const Text(
+        "Characters ",
+      ),
+      actions: [
+        IconButton(
+            onPressed: () {
+              onSearch();
+            },
+            icon: const Icon(Icons.search))
+      ],
+    );
+  }
+
+  void onClearSearch() {
+    setState(() {
+      searchTextController.clear();
+    });
+  }
+
+  void stopSearching() {
+    onClearSearch();
+    setState(() {
+      isSearching = false;
+    });
+  }
+
+  void onSearch() {
+    ModalRoute.of(context)!
+        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: stopSearching));
+
+    setState(() {
+      isSearching = true;
+    });
+  }
+
+  void addItemToSearchedList(String searchedCharacter) {
+    searchedList = listOfAllCharacters
+        .where((character) => character.name!
+            .toLowerCase()
+            .startsWith(searchedCharacter.toLowerCase()))
+        .toList();
+
+    setState(() {});
+  }
+
+  AppBar searchAppBar() {
+    return AppBar(
+      backgroundColor: MyColors.myDarkGreen,
+      leading: const BackButton(),
+      title: TextField(
+        onChanged: (searchedCharacter) {
+          addItemToSearchedList(searchedCharacter);
+        },
+        autofocus: true,
+        showCursor: true,
+        cursorColor: Colors.white,
+        controller: searchTextController,
+        decoration: const InputDecoration(
+            border: InputBorder.none,
+            hintText: "Search For a Cahracter ...",
+            helperStyle: TextStyle(fontSize: 16, color: Colors.grey)),
+      ),
+      actions: [
+        IconButton(
+            onPressed: () {
+              if (searchTextController.text.isEmpty) {
+                Navigator.pop(context);
+              }
+              onClearSearch();
+            },
+            icon: const Icon(Icons.cancel_outlined))
+      ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Characters Of Rick And Morty")),
+      appBar: isSearching ? searchAppBar() : normalAppBar(),
       body: buildBlocWidget(),
     );
   }

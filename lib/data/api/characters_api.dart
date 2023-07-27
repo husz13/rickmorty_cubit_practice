@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:rickmorty_cubit_practice/constants/strings.dart';
+
+import '../../constants/strings.dart';
 
 class CharactersApi {
   late Dio dio;
@@ -24,7 +25,7 @@ class CharactersApi {
   }
   Future<Map<String, dynamic>> getAllCharacters() async {
     try {
-      Response response = await dio.get("character");
+      Response response = await dio.get("character/?page=3");
 
       return response.data;
     } catch (e) {

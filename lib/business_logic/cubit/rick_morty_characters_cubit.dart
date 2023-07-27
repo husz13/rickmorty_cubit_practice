@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:rickmorty_cubit_practice/data/models/character_model/character_model.dart';
 import 'package:rickmorty_cubit_practice/data/repo/characters_repo.dart';
+
 part 'rick_morty_characters_state.dart';
 
 class RickMortyCharactersCubit extends Cubit<RickMortyCharactersState> {

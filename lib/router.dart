@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rickmorty_cubit_practice/business_logic/cubit/rick_morty_characters_cubit.dart';
-import 'package:rickmorty_cubit_practice/data/api/characters_api.dart';
-import 'package:rickmorty_cubit_practice/data/repo/characters_repo.dart';
-import 'package:rickmorty_cubit_practice/presentation/screens/character_details.dart';
-import 'package:rickmorty_cubit_practice/presentation/screens/characters_screen.dart';
+import 'business_logic/cubit/rick_morty_characters_cubit.dart';
+import 'data/api/characters_api.dart';
+import 'data/repo/characters_repo.dart';
+import 'presentation/screens/character_details.dart';
+import 'presentation/screens/characters_screen.dart';
 
 import 'constants/strings.dart';
 
