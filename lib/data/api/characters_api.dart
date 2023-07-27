@@ -25,7 +25,7 @@ class CharactersApi {
   }
   Future<Map<String, dynamic>> getAllCharacters() async {
     try {
-      Response response = await dio.get("character/?page=3");
+      Response response = await dio.get("character/?page=5");
 
       return response.data;
     } catch (e) {

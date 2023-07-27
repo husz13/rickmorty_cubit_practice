@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import '../../business_logic/cubit/rick_morty_characters_cubit.dart';
 import '../../constants/colors.dart';
 import '../../data/models/character_model/character_model.dart';
@@ -86,6 +87,7 @@ class _CharactersScreenState extends State<CharactersScreen> {
 
   AppBar normalAppBar() {
     return AppBar(
+      backgroundColor: const Color.fromARGB(255, 192, 172, 133),
       leading: null,
       title: const Text(
         "Characters ",
@@ -162,11 +164,41 @@ class _CharactersScreenState extends State<CharactersScreen> {
     );
   }
 
+  Widget buildOfflineUI() {
+    return Center(
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
+            Image.asset("assets/images/offline.png")
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: isSearching ? searchAppBar() : normalAppBar(),
-      body: buildBlocWidget(),
+      body: OfflineBuilder(
+        connectivityBuilder: (
+          BuildContext context,
+          ConnectivityResult connectivity,
+          Widget child,
+        ) {
+          final bool connected = connectivity != ConnectivityResult.none;
+
+          if (connected) {
+            return buildBlocWidget();
+          } else {
+            return buildOfflineUI();
+          }
+        },
+        child: showLoadingIndicator(),
+      ),
     );
   }
 }

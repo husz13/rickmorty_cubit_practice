@@ -36,7 +36,7 @@ class CharacterModel {
       name: json['name'] as String?,
       status: json['status'] as String?,
       species: json['species'] as String?,
-      type: json['type'] as String?,
+      type: json['type'] == "" ? "Unknown" : json['type'] as String,
       gender: json['gender'] as String?,
       origin: json['origin'] == null
           ? null

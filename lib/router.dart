@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rickmorty_cubit_practice/data/models/character_model/character_model.dart';
 import 'business_logic/cubit/rick_morty_characters_cubit.dart';
 import 'data/api/characters_api.dart';
 import 'data/repo/characters_repo.dart';
@@ -26,8 +27,11 @@ class ScreensRouter {
           ),
         );
       case characterDetailsScreen:
+        final selectedCharacter = settings.arguments as CharacterModel;
         return MaterialPageRoute(
-            builder: (_) => const CharacterDetailsScreen());
+            builder: (_) => CharacterDetailsScreen(
+                  selectedCharacter: selectedCharacter,
+                ));
       default:
         return null;
     }
